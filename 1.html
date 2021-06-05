@@ -15,6 +15,11 @@
     </h1>
 <h2> Game website second heading</h2>
 <script>
+    
+    var cursors;
+    var knight;
+    var crates;
+
 
     var config ={
         width:800,
@@ -48,25 +53,54 @@
             // this.add.image(300,300,"knight");
 
             //knight
-            var knight =this.physics.add.sprite(100,100,"knight"); 
+            knight =this.physics.add.sprite(100,100,"knight"); 
             knight.body.setSize(400,600,9,0);
             knight.scaleX=0.3;
             knight.scaleY=0.3;
 
             //create the carets
-            var crates =this.physics.add.staticGroup();
+            crates =this.physics.add.staticGroup();
             crates.create(0,400,"crate");
             crates.create(80,400,"crate");
             crates.create(160,400,"crate");
             crates.create(240,400,"crate");
             crates.create(320,400,"crate");
             crates.create(400,400,"crate");
+            crates.create(480,400,"crate");
+            crates.create(560,400,"crate");
+            crates.create(640,400,"crate");
+            crates.create(720,400,"crate");
 
             this.physics.add.collider(crates,knight);
+
+            cursors=this.input.keyboard.createCursorKeys();
+
         }
 
         function gameUpdate(){
+
             //console.log("game is updating");
+            
+            if(cursors.left.isDown){
+                //console.log("left key pressed");
+                knight.setVelocityX(-300);    
+            }
+        
+            else if(cursors.right.isDown){
+                knight.setVelocityX(+300 );
+            }
+            else{
+                knight.setVelocityX(0);
+            }
+
+            if(cursors.space.isDown  && knight.body.touching.down){
+
+                //console.log("left key pressed");
+                knight.setVelocityY(-300);    
+            }
+        
+            
+    
         }
 
         var game = new Phaser.Game(config);
