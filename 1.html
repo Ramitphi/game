@@ -34,8 +34,8 @@
         physics:{
             default:"arcade",
             arcade:{
-                gravity:{y:200},
-                debug:false
+                gravity:{y:210},
+                debug:true
             }
         }
     }
@@ -45,6 +45,8 @@
 
             this.load.image("crate","assets/crate.png");
             this.load.image("knight","assets/knight.png");
+            this.load.image("back","assets/Vibranium_Meteor.png");
+
             console.log("assest loaded");
         }
 
@@ -52,14 +54,19 @@
             console.log("game is setting up assests");
             // this.add.image(300,300,"knight");
 
+            //create background
+            this.add.image(600,100,"back");
+
             //knight
             knight =this.physics.add.sprite(100,100,"knight"); 
-            knight.body.setSize(400,600,9,0);
-            knight.scaleX=0.3;
-            knight.scaleY=0.3;
+            knight.body.setSize(300,600,9,0);
+            knight.scaleX=0.2;
+            knight.scaleY=0.2;
 
             //create the carets
             crates =this.physics.add.staticGroup();
+            
+            //floor
             crates.create(0,400,"crate");
             crates.create(80,400,"crate");
             crates.create(160,400,"crate");
@@ -70,6 +77,13 @@
             crates.create(560,400,"crate");
             crates.create(640,400,"crate");
             crates.create(720,400,"crate");
+            crates.create(800,400,"crate");
+
+            //hurdles
+            crates.create(200,200,"crate");
+            crates.create(400,90,"crate");
+            crates.create(600,200,"crate");
+            crates.create(800,90,"crate");
 
             this.physics.add.collider(crates,knight);
 
