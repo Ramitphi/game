@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"> </script>
+
+</head>
+<body>
+
+    <h1>
+        creating a web game
+    </h1>
+<h2> Game website second heading</h2>
+<script>
+
+    var config ={
+        width:800,
+        height:450,
+        type:Phaser.AUTO,
+        scene:{
+            preload:gamePreload,
+            create :gameCreate,
+            update:gameUpdate
+        },
+
+        physics:{
+            default:"arcade",
+            arcade:{
+                gravity:{y:200},
+                debug:false
+            }
+        }
+    }
+    
+        function gamePreload(){
+            console.log("game is loading assests");
+
+            this.load.image("crate","assets/crate.png");
+            this.load.image("knight","assets/knight.png");
+            console.log("assest loaded");
+        }
+
+        function gameCreate(){
+            console.log("game is setting up assests");
+            // this.add.image(300,300,"knight");
+
+            //knight
+            var knight =this.physics.add.sprite(100,100,"knight"); 
+            knight.body.setSize(400,600,9,0);
+            knight.scaleX=0.3;
+            knight.scaleY=0.3;
+
+            //create the carets
+            var crates =this.physics.add.staticGroup();
+            crates.create(0,400,"crate");
+            crates.create(80,400,"crate");
+            crates.create(160,400,"crate");
+            crates.create(240,400,"crate");
+            crates.create(320,400,"crate");
+            crates.create(400,400,"crate");
+
+            this.physics.add.collider(crates,knight);
+        }
+
+        function gameUpdate(){
+            //console.log("game is updating");
+        }
+
+        var game = new Phaser.Game(config);
+
+    
+
+
+
+</script>
+
+
+</body>
+</html>
