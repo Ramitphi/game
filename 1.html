@@ -35,7 +35,7 @@
             default:"arcade",
             arcade:{
                 gravity:{y:210},
-                debug:true
+                debug:false
             }
         }
     }
@@ -47,7 +47,36 @@
             this.load.image("knight","assets/knight.png");
             this.load.image("back","assets/Vibranium_Meteor.png");
 
-            console.log("assest loaded");
+            
+            //console.log("assest loaded");
+
+            //load run animation 
+            this.load.image("run_frame_1","assets/knight/run/Run (1).png");
+            this.load.image("run_frame_2","assets/knight/run/Run (2).png");
+            this.load.image("run_frame_3","assets/knight/run/Run (3).png");
+            this.load.image("run_frame_4","assets/knight/run/Run (4).png");
+            this.load.image("run_frame_5","assets/knight/run/Run (5).png");
+            this.load.image("run_frame_6","assets/knight/run/Run (6).png");
+            this.load.image("run_frame_7","assets/knight/run/Run (7).png");
+            this.load.image("run_frame_8","assets/knight/run/Run (8).png");
+            this.load.image("run_frame_9","assets/knight/run/Run (9).png");
+            this.load.image("run_frame_10","assets/knight/run/Run (10).png");
+
+            //load the idle animation
+            this.load.image("idle_frame_1","assets/knight/idle/Idle (1).png");
+            this.load.image("idle_frame_2","assets/knight/idle/Idle (2).png");
+            this.load.image("idle_frame_3","assets/knight/idle/Idle (3).png");
+            this.load.image("idle_frame_4","assets/knight/idle/Idle (4).png");
+            this.load.image("idle_frame_5","assets/knight/idle/Idle (5).png");
+            this.load.image("idle_frame_6","assets/knight/idle/Idle (6).png");
+            this.load.image("idle_frame_7","assets/knight/idle/Idle (7).png");
+            this.load.image("idle_frame_8","assets/knight/idle/Idle (8).png");
+            this.load.image("idle_frame_9","assets/knight/idle/Idle (9).png");
+            this.load.image("idle_frame_10","assets/knight/idle/Idle (10).png");
+
+
+            
+
         }
 
         function gameCreate(){
@@ -85,9 +114,58 @@
             crates.create(600,200,"crate");
             crates.create(800,90,"crate");
 
+
+
+            this.anims.create({
+                key:"knight_run",
+                frames:[
+                    {key:"run_frame_1"},
+                    {key:"run_frame_2"},
+                    {key:"run_frame_3"},
+                    {key:"run_frame_4"},
+                    {key:"run_frame_5"},
+                    {key:"run_frame_6"},
+                    {key:"run_frame_7"},
+                    {key:"run_frame_8"},
+                    {key:"run_frame_9"},
+                    {key:"run_frame_10"},
+
+                ],
+                frameRate:20,
+                repeat:1
+            }); 
+
+
+            this.anims.create({
+                key:"knight_idle",
+                frames:[
+                    {key:"idle_frame_1"},
+                    {key:"idle_frame_2"},
+                    {key:"idle_frame_3"},
+                    {key:"idle_frame_4"},
+                    {key:"idle_frame_5"},
+                    {key:"idle_frame_6"},
+                    {key:"idle_frame_7"},
+                    {key:"idle_frame_8"},
+                    {key:"idle_frame_9"},
+                    {key:"idle_frame_10"},
+                ],
+                frameRate:20,
+                repeat:1
+            });
+
+
+
+        
+
             this.physics.add.collider(crates,knight);
 
             cursors=this.input.keyboard.createCursorKeys();
+
+
+            
+
+
 
         }
 
@@ -97,14 +175,20 @@
             
             if(cursors.left.isDown){
                 //console.log("left key pressed");
-                knight.setVelocityX(-300);    
+                knight.setVelocityX(-300);
+                knight.play("knight_run",true);    
+                knight.flipX=true;
             }
         
             else if(cursors.right.isDown){
                 knight.setVelocityX(+300 );
+                knight.play("knight_run",true); 
+                knight.flipX=false; 
             }
+
             else{
                 knight.setVelocityX(0);
+                knight.play("knight_idle",true);  
             }
 
             if(cursors.space.isDown  && knight.body.touching.down){
