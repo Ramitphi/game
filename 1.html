@@ -19,7 +19,15 @@
     var cursors;
     var knight;
     var crates;
+    var cointimer;
+    var score=0;
+    var scoreText;
 
+    var secondsLeft=20;
+    var timeLeftText;
+    var timeLeftTImer;
+
+    var gameOver=false;
 
     var config ={
         width:800,
@@ -46,7 +54,8 @@
             this.load.image("crate","assets/crate.png");
             this.load.image("knight","assets/knight.png");
             this.load.image("back","assets/Vibranium_Meteor.png");
-
+            this.load.image("coins","assets/bitcoin.png");
+            
             
             //console.log("assest loaded");
 
@@ -153,20 +162,84 @@
                 frameRate:20,
                 repeat:1
             });
-
-
-
         
-
             this.physics.add.collider(crates,knight);
+
+            scoreText=this.add.text(10,10,"Score : 0",
+                                    {fontSize:"32px",
+                                     fill :"#FFFFFF"
+                                    })
+
+            timeLeftText=this.add.text(10,45,secondsLeft + " Seconds left",
+                                     {fontSize:"32px",
+                                     fill :"#FFFFFF"
+                                    })                          
 
             cursors=this.input.keyboard.createCursorKeys();
 
+            cointimer=this.time.addEvent({
 
+                delay:Phaser.Math.Between(1000,3000),
+                callback:generateCoins,
+                callbackScope:this,
+                repeat: -1
+            });
+
+            timeLeftTImer = this.time.addEvent({
+                delay:1000,
+                callback:updateTimeLeft,
+                callbackScope:this,
+                repeat: -1
+            });
+
+        }
+
+
+        function updateTimeLeft(){
+            
+            if(gameOver==true)return;
+            secondsLeft -=1;
+            timeLeftText.setText(secondsLeft +"seconds Left")
+            if(secondsLeft<=0){
             
 
+                this.physics.pause();
+                gameOver=true;
+            }    
+            console.log("seconds left: " + secondsLeft);
+        }
 
 
+        function generateCoins(){
+            
+           var coins =this.physics.add.group({
+                key:"coins",
+                repeat:0,
+                setXY:{
+                    x:Phaser.Math.Between(0,800),
+                    y:-100,
+                    stepX:Phaser.Math.Between(50,100)
+                }
+            });
+                    coins.children.iterate(function(child){
+                        child.setBounceY(Phaser.Math.FloatBetween(0.4,1.5));
+                
+                    });
+
+
+                    this.physics.add.collider(coins,crates);
+                    this.physics.add.overlap(knight,coins,collectCoin,null,this);
+
+                  
+           
+           // console.log("Generating coins!!!");
+        }
+
+        function collectCoin(knight,coin){
+            coin.disableBody(true,true);
+            score++;
+        
+            scoreText.setText("Bitcoin Bag:"+score);
         }
 
         function gameUpdate(){
